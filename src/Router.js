@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Nav from './components/Nav/Nav';
+import NavMenu from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import Main from './pages/Main/Main';
 import Signup from './pages/Signup/Signup';
@@ -11,7 +11,7 @@ import Book from './pages/Book/Book';
 const Router = () => {
   return (
     <BrowserRouter>
-      <Nav />
+      <NavMenu />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/Signup" element={<Signup />} />
