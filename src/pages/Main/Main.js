@@ -6,26 +6,20 @@ import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import ReactStars from 'react-stars';
 
 SwiperCore.use([Navigation, Autoplay]);
 
 function Main() {
   const [movieList, setmMovieList] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    fetch('/data/data.json', {
+    fetch('http://10.58.52.67:3000/movies', {
       method: 'GET',
     })
       .then(response => response.json())
       .then(data => setmMovieList(data));
   }, []);
-
-  useEffect(() => {
-    fetch(`http/movie/${searchParams.toString()}`)
-      .then(response => response.json())
-      .then(data => console.log(data));
-  }, [searchParams]);
 
   return (
     <MainWrap>
@@ -55,14 +49,19 @@ function Main() {
           {movieList.map(movie => {
             return (
               <Movie key={movie.id}>
-                <MovieLink to={`/order/${movie.id}`}>
+                <MovieLink to={`/movie/${movie.id}`}>
                   <MovieContent>
                     <MovieId>{movie.id}</MovieId>
                     <MovieThumbnail src={movie.thumbnail} alt="poster" />
                     <MovieTitle>{movie.title}</MovieTitle>
                     <MovieInfo>
-                      <MovieRate>예매율: {movie.rate}</MovieRate>
-                      <MovieScore>평점: {movie.score}</MovieScore>
+                      <MovieRate>
+                        예매율: {movie.ticketRate.split('.')[0]}%
+                      </MovieRate>
+                      <MovieScore>
+                        평점: &nbsp;
+                        <ReactStars value={movie.rate} edit={false} />
+                      </MovieScore>
                     </MovieInfo>
                   </MovieContent>
                 </MovieLink>
@@ -75,7 +74,6 @@ function Main() {
   );
 }
 const MainWrap = styled.div`
-  // padding: 5px 0;
   .swiper-button-next {
     height: 27px;
     background-image: url(images/next.png);
@@ -178,13 +176,16 @@ const MovieInfo = styled.ul`
   justify-content: flex-start;
   align-items: center;
 `;
+
 const MovieRate = styled.li`
-  margin-right: 15px;
-  font-size: 16px;
+  margin-right: 10px;
+  font-size: 15px;
 `;
+
 const MovieScore = styled.li`
-  margin-right: 15px;
-  font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 15px;
 `;
 
 export default Main;
