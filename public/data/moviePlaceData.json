@@ -1,0 +1,44 @@
+[
+  {
+    "region_id": 1,
+    "name": "서울",
+    "location": [
+      {
+        "branch_id": 1,
+        "branch_name": "강남"
+      },
+      {
+        "branch_id": 2,
+        "branch_name": "강변"
+      }
+    ]
+  },
+  {
+    "region_id": 2,
+    "name": "경기",
+    "location": [
+      {
+        "branch_id": 3,
+        "branch_name": "경기광주"
+      },
+      {
+        "branch_id": 4,
+        "branch_name": "고양행신"
+      }
+    ]
+  },
+  {
+    "region_id": 3,
+    "name": "인천",
+    "location": [
+      {
+        "branch_id": 5,
+        "branch_name": "계양"
+      },
+      {
+        "branch_id": 6,
+        "branch_name": "부평"
+      }
+    ]
+  }
+]

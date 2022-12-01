@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "thumbnail": "/images/insideOut.jpg",
+    "title": "inside Out",
+    "region": "서울",
+    "branch": "CGW 강남",
+    "rooms": "3관",
+    "date": "2022년 12월 6일(금)",
+    "date_times": "10:30",
+    "seat": "D6",
+    "price": "12000",
+    "ageLimit": 19,
+    "rate": 4.5
+  },
+  {
+    "id": 2,
+    "thumbnail": "/images/insideOut.jpg",
+    "title": "insideOut",
+    "region": "서울",
+    "branch": "CGW 선릉",
+    "rooms": "3관",
+    "date": "2022년 12월 6일(금)",
+    "date_times": "22:40",
+    "seat": "D6",
+    "price": "12000"
+  },
+  {
+    "id": 3,
+    "thumbnail": "/images/poster3.png",
+    "title": "insideOut",
+    "region": "인천",
+    "branch": "CGW 인천",
+    "rooms": "3관",
+    "date": "2022년 12월 6일(금)",
+    "date_times": "18:40~20:45",
+    "seat": "D6",
+    "price": "12000"
+  },
+  {
+    "id": 4,
+    "thumbnail": "/images/poster3.png",
+    "title": "insideOut",
+    "region": "인천",
+    "branch": "CGW 인천",
+    "rooms": "3관",
+    "date": "2022년 12월 6일(금)",
+    "date_times": "18:40~20:45",
+    "seat": "D6",
+    "price": "12000"
+  }
+]

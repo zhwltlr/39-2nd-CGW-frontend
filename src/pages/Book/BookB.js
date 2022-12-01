@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const BookB = () => {
+const BookB = ({ setShowSeat }) => {
   const [seatList, setSeatList] = useState([]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const BookB = () => {
             <CinemaBtn>결제</CinemaBtn>
           </CinemaInfoArea>
         </CinemaArea>
-        <ModalCloseBtn />
+        <ModalCloseBtn onClick={() => setShowSeat(false)} />
       </ModalContents>
       <ModalDim />
     </ModalWrap>
