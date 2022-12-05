@@ -1,16 +1,103 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const BookB = ({ setShowSeat }) => {
-  const [seatList, setSeatList] = useState([]);
+  const [numAdult, setNumAdult] = useState(0);
+  const [numTeenager, setNumTeenager] = useState(0);
+  const [select, setSelect] = useState([]);
+  const [reserved, setReserved] = useState();
+  const totalPrice = 14000 * numAdult + 11000 * numTeenager;
+  const totalNum = numAdult + numTeenager;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/data/seat.json')
+    fetch('/data/reservedSeat.json')
       .then(res => res.json())
       .then(data => {
-        setSeatList(data);
+        setReserved(data);
       });
   }, []);
+
+  const btnAdultMinus = () => {
+    if (numAdult) {
+      setNumAdult(prev => prev - 1);
+    }
+  };
+
+  if (select.length > totalNum) {
+    alert('좌석을 다시 선택해주세요.');
+    setSelect([]);
+  }
+
+  const btnAdultPlus = () => {
+    if (numAdult + numTeenager > 7) {
+      alert('최대 8명까지 선택 가능합니다.');
+    } else {
+      setNumAdult(prev => prev + 1);
+    }
+  };
+
+  const btnTeenagerMinus = () => {
+    if (numTeenager) {
+      setNumTeenager(prev => prev - 1);
+    }
+  };
+
+  const btnTeenagerPlus = () => {
+    if (numAdult + numTeenager > 7) {
+      alert('최대 8명까지 선택 가능합니다.');
+    } else {
+      setNumTeenager(prev => prev + 1);
+    }
+  };
+
+  const paymentCheck = () => {
+    fetch('http://10.58.52.204:3000/movieOptions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: accessToken,
+      },
+      body: JSON.stringify({
+        movieOption_id: reserved.movieOption_id,
+        seat_id: select,
+        // seatid: select,
+        // adult: numAdult,
+        // teenager: numTeenager,
+      }),
+    })
+      .then(response => response.json())
+      .then(() => {
+        if (select.length !== totalNum) {
+          alert('인원에 맞게 선택해주세요.');
+        } else if (select.length == 0) {
+          alert('인원과 좌석을 선택해주세요.');
+        } else {
+          navigate('/Payment');
+        }
+      });
+  };
+
+  const selectCheck = (e, el) => {
+    let { checked } = e.target;
+    if (checked) {
+      setSelect([...select, el.id]);
+      if (totalNum === 0) {
+        alert('인원을 선택해주세요.');
+        setSelect(select);
+        checked = false;
+      } else if (select.length >= totalNum) {
+        setSelect(select);
+        checked = false;
+        alert('이미 좌석을 모두 선택하였습니다.');
+      }
+    } else {
+      setSelect(select.filter(sel => sel != el.id));
+    }
+  };
+
+  console.log(select);
 
   return (
     <ModalWrap>
@@ -20,17 +107,17 @@ const BookB = ({ setShowSeat }) => {
           <PersonInfo>
             일반
             <PersonBox>
-              <PersonBtnMinus />
-              <PersonNumber>0</PersonNumber>
-              <PersonBtnPlus />
+              <PersonBtnMinus onClick={btnAdultMinus} />
+              <PersonNumber>{numAdult}</PersonNumber>
+              <PersonBtnPlus onClick={btnAdultPlus} />
             </PersonBox>
           </PersonInfo>
           <PersonInfo>
             청소년
             <PersonBox>
-              <PersonBtnMinus />
-              <PersonNumber>0</PersonNumber>
-              <PersonBtnPlus />
+              <PersonBtnMinus onClick={btnTeenagerMinus} />
+              <PersonNumber>{numTeenager}</PersonNumber>
+              <PersonBtnPlus onClick={btnTeenagerPlus} />
             </PersonBox>
           </PersonInfo>
         </ModalInfo>
@@ -38,16 +125,44 @@ const BookB = ({ setShowSeat }) => {
           <CinemaSeat>
             <CinemaScreen>SCREEN</CinemaScreen>
             <CinemaSeatList>
-              {seatList.map(el => {
-                return (
-                  <CinemaCheckbox key={el.id}>
-                    <CinemaCheckboxInput id={el.number} type="checkbox" />
-                    <CinemaCheckboxLabel htmlFor={el.number}>
-                      {el.number}
-                    </CinemaCheckboxLabel>
-                  </CinemaCheckbox>
-                );
-              })}
+              {reserved &&
+                reserved.seat.map(el => {
+                  if (reserved.reserved_seat_id.includes(el.id)) {
+                    return (
+                      <CinemaCheckbox key={el.id}>
+                        <CinemaCheckboxInput
+                          id={el.name}
+                          type="checkbox"
+                          onChange={e => {
+                            selectCheck(e, el);
+                          }}
+                          checked={select.includes(el.id) ? true : false}
+                          disabled={true}
+                        />
+                        <CinemaCheckboxLabel htmlFor={el.name}>
+                          {el.name}
+                        </CinemaCheckboxLabel>
+                      </CinemaCheckbox>
+                    );
+                  } else {
+                    return (
+                      <CinemaCheckbox key={el.id}>
+                        <CinemaCheckboxInput
+                          id={el.name}
+                          type="checkbox"
+                          onChange={e => {
+                            selectCheck(e, el);
+                          }}
+                          checked={select.includes(el.id) ? true : false}
+                          disabled={false}
+                        />
+                        <CinemaCheckboxLabel htmlFor={el.name}>
+                          {el.name}
+                        </CinemaCheckboxLabel>
+                      </CinemaCheckbox>
+                    );
+                  }
+                })}
             </CinemaSeatList>
           </CinemaSeat>
           <CinemaInfoArea>
@@ -59,22 +174,24 @@ const BookB = ({ setShowSeat }) => {
               <CinemaInfoElement>
                 <CinemaPriceTit>일반</CinemaPriceTit>
                 <CinemaPrice>14,000</CinemaPrice>x
-                <CinemaPriceNum>0</CinemaPriceNum>
+                <CinemaPriceNum>{numAdult}</CinemaPriceNum>
               </CinemaInfoElement>
               <CinemaInfoElement>
                 <CinemaPriceTit>청소년</CinemaPriceTit>
                 <CinemaPrice>11,000</CinemaPrice>x
-                <CinemaPriceNum>0</CinemaPriceNum>
+                <CinemaPriceNum>{numTeenager}</CinemaPriceNum>
               </CinemaInfoElement>
               <CinemaInfoElement>
                 <CinemaPriceTit>총금액</CinemaPriceTit>
-                <CinemaTotalPrice>0</CinemaTotalPrice>
+                <CinemaTotalPrice>
+                  {totalPrice.toLocaleString()}원
+                </CinemaTotalPrice>
               </CinemaInfoElement>
             </CinemaInfoList>
-            <CinemaBtn>결제</CinemaBtn>
+            <CinemaBtn onClick={paymentCheck}>결제</CinemaBtn>
           </CinemaInfoArea>
         </CinemaArea>
-        <ModalCloseBtn onClick={() => setShowSeat(false)} />
+        <ModalCloseBtn onClick={() => setShowSeat(false)} />팝업 닫기</ModalCloseBtn>
       </ModalContents>
       <ModalDim />
     </ModalWrap>
@@ -94,7 +211,7 @@ const ModalContents = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 800px;
+  width: 800px;
   border-radius: 8px;
   background: #fff;
   box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.42);
@@ -114,6 +231,7 @@ const ModalCloseBtn = styled.button`
   right: 20px;
   width: 40px;
   height: 40px;
+  text-indent: -9999px;
   border: 0;
   background: none;
   cursor: pointer;
@@ -288,6 +406,31 @@ const CinemaCheckboxInput = styled.input`
   &:checked + ${CinemaCheckboxLabel} {
     color: #fff;
     background: #fb4357;
+  }
+  &:disabled + ${CinemaCheckboxLabel} {
+    text-indent: -9999px;
+    background: #666;
+    cursor: not-allowed;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 18px;
+      background: #fff;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 18px;
+      background: #fff;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
   }
 `;
 
