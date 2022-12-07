@@ -10,6 +10,8 @@ import Book from './pages/Book/Book';
 import KakaoLogin from './pages/Login/KakaoLogin';
 import NaverLogin from './pages/Login/NaverLogin';
 import UserInfo from './pages/Login/UserInfo';
+import BookB from './pages/Book/BookB';
+import PaymentKakao from './pages/Payment/PaymentKakao';
 
 const Router = () => {
   return (
@@ -24,6 +26,10 @@ const Router = () => {
         <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/times/movie_id/:id" element={<Book />} />
+        <Route path="/kakaoPayment/approval" element={<PaymentKakao />} />
+        <Route path="/Book" element={<Book />} />
+        <Route path="/BookA" element={<BookA />} />
+        <Route path="/BookB" element={<BookB />} />
       </Routes>
       <Footer />
     </BrowserRouter>
