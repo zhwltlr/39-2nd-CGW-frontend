@@ -1,4 +1,4 @@
-git import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const PaymentKakao = () => {
@@ -33,7 +33,7 @@ const PaymentKakao = () => {
       });
   }, [CODE]);
 
-console.log('hello')
+  console.log('hello');
 
   // const paySuccess = () => {
   //   fetch('http://10.58.52.234:3000/kakaoPayment/approval', {

@@ -9,7 +9,6 @@ const Book = () => {
 
   const params = useParams();
   const id = params.id;
-  console.log(id);
 
   useEffect(() => {
     // fetch('/data/movieData.json')

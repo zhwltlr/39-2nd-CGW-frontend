@@ -28,7 +28,6 @@ const Router = () => {
         <Route path="/times/movie_id/:id" element={<Book />} />
         <Route path="/kakaoPayment/approval" element={<PaymentKakao />} />
         <Route path="/Book" element={<Book />} />
-        <Route path="/BookA" element={<BookA />} />
         <Route path="/BookB" element={<BookB />} />
       </Routes>
       <Footer />

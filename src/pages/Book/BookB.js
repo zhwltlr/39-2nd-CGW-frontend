@@ -191,7 +191,9 @@ const BookB = ({ setShowSeat }) => {
             <CinemaBtn onClick={paymentCheck}>결제</CinemaBtn>
           </CinemaInfoArea>
         </CinemaArea>
-        <ModalCloseBtn onClick={() => setShowSeat(false)} />팝업 닫기</ModalCloseBtn>
+        <ModalCloseBtn onClick={() => setShowSeat(false)}>
+          팝업 닫기
+        </ModalCloseBtn>
       </ModalContents>
       <ModalDim />
     </ModalWrap>
