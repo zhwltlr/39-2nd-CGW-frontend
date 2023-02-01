@@ -14,7 +14,8 @@ function Main() {
   const [movieList, setmMovieList] = useState([]);
 
   useEffect(() => {
-    fetch('http://10.58.52.67:3000/movies', {
+    // fetch('http://10.58.52.67:3000/movies', {
+    fetch('./data/data.json', {
       method: 'GET',
     })
       .then(response => response.json())
@@ -55,9 +56,7 @@ function Main() {
                     <MovieThumbnail src={movie.thumbnail} alt="poster" />
                     <MovieTitle>{movie.title}</MovieTitle>
                     <MovieInfo>
-                      <MovieRate>
-                        예매율: {movie.ticketRate.split('.')[0]}%
-                      </MovieRate>
+                      <MovieRate>예매율: {movie.ticketRate}%</MovieRate>
                       <MovieScore>
                         평점: &nbsp;
                         <ReactStars value={movie.rate} edit={false} />
@@ -126,6 +125,7 @@ const MovieList = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 1200px;
   margin-top: 70px;
+  margin-bottom: 100px;
 `;
 
 const Movie = styled.div`

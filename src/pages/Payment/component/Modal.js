@@ -56,7 +56,7 @@ const Modal = ({ openModal }) => {
         </BookingDetailInfo>
       </BookingInfo>
       <Map />
-      <LastPayBotton>확인</LastPayBotton>
+      <LastPayBotton onClick={openModal}>확인</LastPayBotton>
     </ModalBody>
   );
 };

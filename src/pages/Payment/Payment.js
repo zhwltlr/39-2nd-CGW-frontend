@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Payment = () => {
   const [movieInfo, setMovieInfo] = useState({});
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(true);
 
   const openModal = () => {
     setIsOpenModal(!isOpenModal);
@@ -32,32 +32,16 @@ const Payment = () => {
     })
       .then(response => {
         if (response.ok === true) {
-          // console.log(response.body);
           return response.json();
         }
         throw new Error('error');
       })
       .then(data => {
         localStorage.setItem('tid', data.tid);
-        // const redirect = data.next_redirect_pc_url;
         window.location.href = data.next_redirect_pc_url;
       });
   };
 
-  // approval url
-  // const approvePay = () => {
-  //   const location = useLocation();
-  //   const CODE = location.search.split('=')[1];
-  //   fetch('http/', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json;charset=utf-8',
-  //     },
-  //     body: JSON.stringify({
-  //       pg_token: CODE,
-  //     }),
-  //   });
-  // };
   //결제 페이지에서 요청할 API
   useEffect(() => {
     fetch('/data/reservationData.json')

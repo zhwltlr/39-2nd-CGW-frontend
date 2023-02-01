@@ -33,8 +33,6 @@ const PaymentKakao = () => {
       });
   }, [CODE]);
 
-  console.log('hello');
-
   // const paySuccess = () => {
   //   fetch('http://10.58.52.234:3000/kakaoPayment/approval', {
   //     method: 'POST',

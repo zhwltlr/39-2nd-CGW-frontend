@@ -11,6 +11,11 @@ const Login = () => {
     setInputValue(prev => ({ ...prev, [name]: value }));
   };
 
+  const loginCheck = () => {
+    setInputValue({ id: '', pw: '' });
+    alert('소셜 로그인을 이용해주세요');
+  };
+
   return (
     <LoginBg>
       <LoginImg>
@@ -23,13 +28,25 @@ const Login = () => {
             </LogoTitle>
           </LoginLogo>
           <LoginForm>
-            <LoginInput placeholder="아이디" onChange={handleInput} name="id" />
+            <LoginInput
+              placeholder="아이디"
+              onChange={handleInput}
+              name="id"
+              value={inputValue.id}
+            />
             <LoginInput
               placeholder="비밀번호"
               onChange={handleInput}
               name="pw"
+              value={inputValue.pw}
             />
-            <LoginBtn>로그인</LoginBtn>
+            <LoginBtn
+              onClick={() => {
+                loginCheck();
+              }}
+            >
+              로그인
+            </LoginBtn>
             <LoginOr>또는</LoginOr>
             <SocialLogin>
               <SocialBtn href={`${KAKAO_AUTH_URL}`}>
@@ -156,10 +173,6 @@ const SocialBtn = styled.a`
   border: none;
   border-radius: 12px;
   cursor: pointer;
-
-  &: hover {
-    opacity: 0.7;
-  }
 `;
 
 const SocialBtnImg = styled.img`

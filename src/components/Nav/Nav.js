@@ -49,7 +49,7 @@ function NavMenu() {
             navbarScroll
           >
             <Nav.Link href="/">영화</Nav.Link>
-            <Nav.Link href="/order">예매내역</Nav.Link>
+            <Nav.Link href="/payment">예매내역</Nav.Link>
             <Nav.Link href="/Login">로그인</Nav.Link>
           </Nav>
           <Form className="d-flex" style={{ alignItems: 'center' }}>
